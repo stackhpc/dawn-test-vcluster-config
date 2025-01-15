@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vcluster-config-overrides
+data:
+  # These values enable OIDC authentication and set the hostname for the API server
+  values.yaml: |
+    controlPlane:
+      distro:
+        k8s:
+          apiServer:
+            extraArgs:
+              - "--oidc-issuer-url=https://myidp.example.org"
+              - "--oidc-client-id=my-vcluster"
+              - "--oidc-username-claim=preferred_username"
+              - "--oidc-username-prefix=oidc:"
+              - "--oidc-groups-claim=groups"
+              - "--oidc-groups-prefix=oidc:"
+              - "--oidc-signing-algs=RS256"
+      ingress:
+        host: my-cluster.k8s.example.org

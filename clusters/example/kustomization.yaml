@@ -1,0 +1,6 @@
+# The namespace to deploy the vcluster in
+namespace: my-vcluster
+
+resources:
+  - ../../base
+  - overrides.yaml

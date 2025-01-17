@@ -11,10 +11,6 @@ spec:
     - kind: ConfigMap
       name: vcluster-config-defaults
       valuesKey: values.yaml
-    - kind: ConfigMap
-      name: vcluster-config-overrides
-      valuesKey: values.yaml
-      optional: true
   install:
     createNamespace: true
     remediation:

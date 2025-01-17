@@ -1,5 +1,12 @@
+configurations:
+  - kustomizeconfig.yaml
+
+configMapGenerator:
+  - name: vcluster-config-defaults
+    files:
+      - values.yaml=defaults.yaml
+
 resources:
-  - defaults.yaml
   - helmrepository.yaml
   - helmchart.yaml
   - helmrelease.yaml

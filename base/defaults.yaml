@@ -1,93 +1,103 @@
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: vcluster-config-defaults
-data:
-  # These values allow a vcluster to be deployed in a namespace with the restricted PSS
-  values.yaml: |
-    controlPlane:
-      backingStore:
-        etcd:
-          deploy:
-            enabled: true
-            statefulSet:
-              security:
-                podSecurityContext:
-                  fsGroup: 1000001
-                containerSecurityContext:
-                  allowPrivilegeEscalation: false
-                  capabilities:
-                    drop:
-                      - ALL
-                  readOnlyRootFilesystem: true
-                  runAsNonRoot: true
-                  runAsUser: 10000001
-                  seccompProfile:
-                    type: RuntimeDefault
-      distro:
-        k8s:
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 10000001
-            seccompProfile:
-              type: RuntimeDefault
-      ingress:
-        enabled: true
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-          nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-          nginx.ingress.kubernetes.io/ssl-redirect: "true"
-        spec:
-          ingressClassName: nginx
-      statefulSet:
-        image:
-          repository: loft-sh/vcluster-oss
-        security:
-          podSecurityContext:
-            fsGroup: 1000001
-          containerSecurityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 10000001
-            seccompProfile:
-              type: RuntimeDefault
 
-    integrations:
-      metricsServer:
-        enabled: true
-        nodes: true
-        pods: true
+# This configuration allows a vcluster to run in a namespaced using the restricted PSS
+# https://kubernetes.io/docs/concepts/security/pod-security-standards/
 
-    policies:
-      podSecurityStandard: privileged
-      limitRange:
+controlPlane:
+  # Use etcd backed by a PVC for the backing store
+  backingStore:
+    etcd:
+      deploy:
         enabled: true
-      networkPolicy:
-        enabled: true
-      resourceQuota:
-        enabled: true
+        statefulSet:
+          security:
+            podSecurityContext:
+              fsGroup: 1000001
+            containerSecurityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 10000001
+              seccompProfile:
+                type: RuntimeDefault
+  # Use the vanilla k8s distro
+  distro:
+    k8s:
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 10000001
+        seccompProfile:
+          type: RuntimeDefault
+  # Enable API access via ingress
+  # Requires the NGINX ingress controller on the host cluster with SSL passthrough enabled
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    spec:
+      ingressClassName: nginx
+  # Configuration for the vluster itself
+  # Use the image for the open-source version rather than pro
+  statefulSet:
+    image:
+      repository: loft-sh/vcluster-oss
+    security:
+      podSecurityContext:
+        fsGroup: 1000001
+      containerSecurityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 10000001
+        seccompProfile:
+          type: RuntimeDefault
 
-    sync:
-      fromHost:
-        storageClasses:
-          enabled: true
-      toHost:
-        configMaps:
-          all: true
-        networkPolicies:
-          enabled: true
-        secrets:
-          all: true
+# Enable the metrics server integration
+# This makes metrics from the metrics server on the host cluster available to the vcluster
+integrations:
+  metricsServer:
+    enabled: true
+    nodes: true
+    pods: true
 
-    telemetry:
-      enabled: false
+# Configure policies to restrict the vcluster
+# https://www.vcluster.com/docs/vcluster/configure/vcluster-yaml/policies/
+policies:
+  podSecurityStandard: privileged
+  limitRange:
+    enabled: true
+  networkPolicy:
+    enabled: true
+  resourceQuota:
+    enabled: true
+
+# Configure the resources that are synchronised
+# https://www.vcluster.com/docs/vcluster/configure/vcluster-yaml/sync/
+sync:
+  fromHost:
+    storageClasses:
+      enabled: true
+  toHost:
+    configMaps:
+      all: true
+    networkPolicies:
+      enabled: true
+    secrets:
+      all: true
+
+# Disable telemetry
+telemetry:
+  enabled: false

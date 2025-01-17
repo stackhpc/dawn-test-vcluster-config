@@ -2,7 +2,22 @@
 # This must match the name of the namespace in namespace.yaml
 namespace: my-vcluster
 
+configMapGenerator:
+  - name: vcluster-config-overrides
+    files:
+      - values.yaml=overrides.yaml
+
 resources:
   - namespace.yaml
   - ../../base
-  - overrides.yaml
+
+patches:
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/valuesFrom/-
+        value:
+          kind: ConfigMap
+          name: vcluster-config-overrides
+          valuesKey: values.yaml

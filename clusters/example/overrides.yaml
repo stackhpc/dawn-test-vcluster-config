@@ -19,6 +19,14 @@ controlPlane:
   ingress:
     host: my-cluster.k8s.example.org
 
+# Limit the vcluster to certains nodes on the host cluster using labels
+sync:
+  fromHost:
+    nodes:
+      selector:
+        labels:
+          reserved-for: my-vcluster
+
 experimental:
   deploy:
     vcluster:

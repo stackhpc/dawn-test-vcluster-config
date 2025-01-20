@@ -138,7 +138,7 @@ First, you must obtain the base64-encoded certificate for the vCluster's API ser
 kubeconfig file that can access the **host** cluster:
 
 ```sh
-kubectl -n my-vcluster-ns get secret vcluster-certs -o go-template='{{index .data "ca.crt"}}'
+kubectl -n my-vcluster get secret vcluster-certs -o go-template='{{index .data "ca.crt"}}'
 ```
 
 Then create a `KUBECONFIG` file similar to the following to access the vCluster, replacing the

@@ -2,8 +2,8 @@
 
 This repository contains configuration for deploying and managing one or more
 [vClusters](https://www.vcluster.com/docs) on a host [Kubernetes](https://kubernetes.io/) cluster
-using a [GitOps](https://about.gitlab.com/topics/gitops/) workflow. The management of the host
-cluster is beyond the scope of this repository.
+using a [GitOps](https://about.gitlab.com/topics/gitops/) workflow via [Flux CD](https://fluxcd.io/).
+The management of the host cluster is beyond the scope of this repository.
 
 By default, Kubernetes does not provide strong multi-tenancy guarantees. In particular,
 [custom resource definitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/),

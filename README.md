@@ -122,7 +122,7 @@ flux create kustomization vclusters --source=GitRepository/vclusters --prune=tru
 ```
 
 This creates a [Kustomization](https://fluxcd.io/flux/components/kustomize/kustomizations/) that
-will deploy the root `kustomization.yaml` from this repository, hence deploying all the vClusters
+will deploy the root `kustomization.yaml` from your repository, hence deploying all the vClusters
 referenced in that file.
 
 ## Accessing a vCluster

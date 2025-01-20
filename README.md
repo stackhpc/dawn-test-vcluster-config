@@ -124,3 +124,55 @@ flux create kustomization vclusters --source=GitRepository/vclusters --prune=tru
 This creates a [Kustomization](https://fluxcd.io/flux/components/kustomize/kustomizations/) that
 will deploy the root `kustomization.yaml` from this repository, hence deploying all the vClusters
 referenced in that file.
+
+## Accessing a vCluster
+
+This section assumes that the vCluster has been configured to use OIDC for authentication. Other
+mechanisms for accessing vClusters are described in the
+[vCluster documentation](https://www.vcluster.com/docs/vcluster/manage/accessing-vcluster).
+
+To use OIDC to access a vCluster, the client must have the
+[oidc-login](https://github.com/int128/kubelogin) plugin for `kubectl` installed.
+
+First, you must obtain the base64-encoded certificate for the vCluster's API server, using a
+kubeconfig file that can access the **host** cluster:
+
+```sh
+kubectl -n my-vcluster-ns get secret vcluster-certs -o go-template='{{index .data "ca.crt"}}'
+```
+
+Then create a `KUBECONFIG` file similar to the following to access the vCluster, replacing the
+`server` with the ingress hostname for the API server and the OIDC issuer and client ID with
+the values used when configuring the vCluster:
+
+```yaml
+apiVersion: v1
+clusters:
+  - cluster:
+      server: https://my-cluster.k8s.example.org:443
+      certificate-authority-data: <BASE64-ENCODED CERT DATA>
+    name: vcluster
+contexts:
+  - context:
+      cluster: vcluster
+      user: oidc
+    name: oidc@vcluster
+current-context: oidc@vcluster
+kind: Config
+preferences: {}
+users:
+  - name: oidc
+    user:
+      exec:
+        apiVersion: client.authentication.k8s.io/v1beta1
+        command: kubectl
+        args:
+          - oidc-login
+          - get-token
+          - --grant-type=device-code
+          - --oidc-issuer-url=https://myidp.example.org
+          - --oidc-client-id=my-vcluster
+```
+
+This configuration will perform a device flow authentication with the issuer to get an OIDC
+token that can be used to interact with Kubernetes.

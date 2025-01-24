@@ -26,6 +26,7 @@ controlPlane:
   # Use the vanilla k8s distro
   distro:
     k8s:
+      enabled: true
       securityContext:
         allowPrivilegeEscalation: false
         capabilities:

@@ -1,0 +1,47 @@
+---
+
+controlPlane:
+  # Configure OIDC authentication for the vcluster
+  # This should use an OIDC client configured for use with the device code flow
+  distro:
+    k8s:
+      apiServer:
+        extraArgs:
+          - "--oidc-issuer-url=https://myidp.example.org"
+          - "--oidc-client-id=my-vcluster"
+          - "--oidc-username-claim=preferred_username"
+          - "--oidc-username-prefix=oidc:"
+          - "--oidc-groups-claim=groups"
+          - "--oidc-groups-prefix=oidc:"
+          - "--oidc-signing-algs=RS256"
+
+  # Configure the host for the API for the vcluster
+  ingress:
+    host: my-cluster.k8s.example.org
+
+# Limit the vcluster to certains nodes on the host cluster using labels
+sync:
+  fromHost:
+    nodes:
+      selector:
+        labels:
+          reserved-for: my-vcluster
+
+experimental:
+  deploy:
+    vcluster:
+      # Configure permissions in the vcluster for OIDC groups and users
+      # This example grants the cluster-admin role to users from the "my-vcluster" group
+      manifests: |-
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRoleBinding
+        metadata:
+          name: oidc:cluster-admin
+        subjects:
+          - apiGroup: rbac.authorization.k8s.io
+            kind: Group
+            name: oidc:my-vcluster
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: cluster-admin

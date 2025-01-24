@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-vcluster
+  labels:
+    # Set the pod security standard for the namespace
+    # This will apply to all pods synced from the vcluster
+    # https://kubernetes.io/docs/tutorials/security/ns-level-pss/
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: baseline
+    pod-security.kubernetes.io/audit: baseline

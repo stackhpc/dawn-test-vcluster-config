@@ -3,7 +3,7 @@
 # This configuration allows a vcluster to run in a namespaced using the restricted PSS
 # https://kubernetes.io/docs/concepts/security/pod-security-standards/
 
-# controlPlane:
+controlPlane:
 #   # Use etcd backed by a PVC for the backing store
 #   backingStore:
 #     etcd:
@@ -39,14 +39,14 @@
 #           type: RuntimeDefault
 #   # Enable API access via ingress
 #   # Requires the NGINX ingress controller on the host cluster with SSL passthrough enabled
-#   ingress:
-#     enabled: true
-#     annotations:
-#       nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-#       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-#       nginx.ingress.kubernetes.io/ssl-redirect: "true"
-#     spec:
-#       ingressClassName: nginx
+   ingress:
+     enabled: true
+     annotations:
+       nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+       nginx.ingress.kubernetes.io/ssl-redirect: "true"
+     spec:
+       ingressClassName: nginx
 #   # Configuration for the vluster itself
 #   # Use the image for the open-source version rather than pro
 #   statefulSet:

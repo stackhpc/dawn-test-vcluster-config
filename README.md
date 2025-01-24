@@ -125,7 +125,16 @@ This creates a [Kustomization](https://fluxcd.io/flux/components/kustomize/kusto
 will deploy the root `kustomization.yaml` from your repository, hence deploying all the vClusters
 referenced in that file.
 
-## Accessing a vCluster
+## Accessing a vCluster (OIDC)
+
+Assuming you have the ingress working, you can do:
+
+```sh
+vcluster connect vcluster --server <ingress> -n dawntest-cluster1
+vcluster disconnect
+```
+
+## Accessing a vCluster (OIDC)
 
 This section assumes that the vCluster has been configured to use OIDC for authentication. Other
 mechanisms for accessing vClusters are described in the

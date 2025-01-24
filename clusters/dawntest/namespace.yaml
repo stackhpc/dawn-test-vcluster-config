@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: my-vcluster
+  name: dawntest-cluster1
   labels:
     # Set the pod security standard for the namespace
     # This will apply to all pods synced from the vcluster

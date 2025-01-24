@@ -17,21 +17,19 @@ controlPlane:
 
   # Configure the host for the API for the vcluster
   ingress:
-    host: my-cluster.k8s.example.org
+    host: dawntest-cluster1.dawntest.128-232-224-75.nip.io
 
 # Limit the vcluster to certains nodes on the host cluster using labels
-sync:
-  fromHost:
-    nodes:
-      selector:
-        labels:
-          reserved-for: my-vcluster
+# sync:
+#   fromHost:
+#     nodes:
+#       selector:
+#         labels:
+#           reserved-for: dawntest-cluster1
 
 experimental:
   deploy:
     vcluster:
-      # Configure permissions in the vcluster for OIDC groups and users
-      # This example grants the cluster-admin role to users from the "my-vcluster" group
       manifests: |-
         apiVersion: rbac.authorization.k8s.io/v1
         kind: ClusterRoleBinding
@@ -40,7 +38,7 @@ experimental:
         subjects:
           - apiGroup: rbac.authorization.k8s.io
             kind: Group
-            name: oidc:my-vcluster
+            name: oidc:dawntest-cluster1
         roleRef:
           apiGroup: rbac.authorization.k8s.io
           kind: ClusterRole

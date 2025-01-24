@@ -1,3 +1,2 @@
-# Add clusters here when they are ready to deploy
 resources:
-  # - ./clusters/example
+  - ./clusters/dawntest

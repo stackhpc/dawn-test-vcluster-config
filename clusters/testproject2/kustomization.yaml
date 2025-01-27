@@ -1,6 +1,6 @@
 # The namespace to deploy the vcluster in
 # This must match the name of the namespace in namespace.yaml
-namespace: dawntest-cluster1
+namespace: testproject2
 
 configMapGenerator:
   - name: vcluster-config-overrides

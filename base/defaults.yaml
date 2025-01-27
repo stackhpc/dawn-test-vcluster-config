@@ -91,13 +91,13 @@ sync:
   fromHost:
     storageClasses:
       enabled: true
-#   toHost:
-#     configMaps:
-#       all: true
-#     networkPolicies:
-#       enabled: true
-#     secrets:
-#       all: true
+  toHost:
+    configMaps:
+      all: true
+    networkPolicies:
+      enabled: true
+    secrets:
+      all: true
 
 # Disable telemetry
 telemetry:

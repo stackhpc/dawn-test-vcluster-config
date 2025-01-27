@@ -87,10 +87,10 @@ controlPlane:
 
 # # Configure the resources that are synchronised
 # # https://www.vcluster.com/docs/vcluster/configure/vcluster-yaml/sync/
-# sync:
-#   fromHost:
-#     storageClasses:
-#       enabled: true
+sync:
+  fromHost:
+    storageClasses:
+      enabled: true
 #   toHost:
 #     configMaps:
 #       all: true

@@ -125,12 +125,15 @@ This creates a [Kustomization](https://fluxcd.io/flux/components/kustomize/kusto
 will deploy the root `kustomization.yaml` from your repository, hence deploying all the vClusters
 referenced in that file.
 
-## Accessing a vCluster (OIDC)
+## Accessing a vCluster (Non-OIDC)
 
 Assuming you have the ingress working, you can do:
 
 ```sh
-vcluster connect vcluster --server <ingress> -n dawntest-cluster1
+vcluster list
+kubectl get ingress -n <namespace>
+vcluster connect vcluster --server <ingress> -n <namespace>
+<use kubectl on vcluster here>
 vcluster disconnect
 ```
 

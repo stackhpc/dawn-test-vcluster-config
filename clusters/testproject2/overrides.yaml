@@ -1,0 +1,40 @@
+---
+controlPlane:
+  ingress:
+    host: k8s.testproject2.dawntest.128-232-224-75.nip.io
+  # distro:
+  #   k8s:
+  #     apiServer:
+  #       extraArgs:
+  #         - "--oidc-issuer-url=https://myidp.example.org"
+  #         - "--oidc-client-id=my-vcluster"
+  #         - "--oidc-username-claim=preferred_username"
+  #         - "--oidc-username-prefix=oidc:"
+  #         - "--oidc-groups-claim=groups"
+  #         - "--oidc-groups-prefix=oidc:"
+  #         - "--oidc-signing-algs=RS256"
+
+# Limit the vcluster to certains nodes on the host cluster using labels
+# sync:
+#   fromHost:
+#     nodes:
+#       selector:
+#         labels:
+#           reserved-for: dawntest-cluster1
+
+# experimental:
+#   deploy:
+#     vcluster:
+#       manifests: |-
+#         apiVersion: rbac.authorization.k8s.io/v1
+#         kind: ClusterRoleBinding
+#         metadata:
+#           name: oidc:cluster-admin
+#         subjects:
+#           - apiGroup: rbac.authorization.k8s.io
+#             kind: Group
+#             name: oidc:dawntest-cluster1
+#         roleRef:
+#           apiGroup: rbac.authorization.k8s.io
+#           kind: ClusterRole
+#           name: cluster-admin

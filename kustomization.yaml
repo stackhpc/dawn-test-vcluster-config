@@ -1,2 +1,3 @@
 resources:
   - ./clusters/dawntest
+  - ./clusters/testproject2

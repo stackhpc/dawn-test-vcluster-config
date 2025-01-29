@@ -95,7 +95,8 @@ sync:
     configMaps:
       all: true
     networkPolicies:
-      enabled: true
+      # TODO - we need this really!
+      enabled: false
     secrets:
       all: true
 

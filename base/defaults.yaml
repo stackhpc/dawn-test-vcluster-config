@@ -91,6 +91,8 @@ sync:
   fromHost:
     storageClasses:
       enabled: true
+    ingressClasses:
+      enabled: true
   toHost:
     configMaps:
       all: true
@@ -99,6 +101,8 @@ sync:
       enabled: false
     secrets:
       all: true
+    ingresses:
+      enabled: true
 
 # Disable telemetry
 telemetry:

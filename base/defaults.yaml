@@ -97,7 +97,7 @@ sync:
     configMaps:
       all: true
     networkPolicies:
-      enabled: true
+      enabled: false
     secrets:
       all: true
     ingresses:
